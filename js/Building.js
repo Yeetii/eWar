@@ -10,6 +10,7 @@ function Building (builtOn, sprite, sprite2){
 	this.sprite.events.onInputOut.add(this.unHover, this);
 	this.sprite.events.onInputUp.add(this.build, this)
 
+
 	//Sprite 2 is used for buildings that use 2 sprites, for example railway
 	if (sprite2 != null){
 		this.sprite2 = sprite2
@@ -26,9 +27,11 @@ Building.prototype = {
 		// NOTE!
 		//Each building has to check for price on their own!!
 		// NOTE!
-
+		
 		//Can't already be built or sprite invisible when trying to build
-		if (this.isBuilt || (!currentPlayer.isAi && this.sprite.frame != 1))
+		if (!currentPlayer.isAi && this.sprite.frame != 1)
+			return false
+		if (this.isBuilt)
 			return false
 
 	    this.sprite.frame = 1;
@@ -49,7 +52,7 @@ Building.prototype = {
 	    return true
 	},
 	hover: function (){
-		if (this.builtOn == selectedSquare){
+		if (this.builtOn === selectedUnit.square){
             this.sprite.frame = 1;
 
 	        if (this.sprite2 != null){
@@ -58,7 +61,7 @@ Building.prototype = {
         }	
 	},
 	unHover: function (){
-		if (this.builtOn == selectedSquare){
+		if (this.builtOn === selectedUnit.square){
             this.sprite.frame = 0;
         
 			if (this.sprite2 != null){

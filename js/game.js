@@ -155,10 +155,13 @@ gameState.prototype = {
         this.player2 = new Player('red');
         this.player2.isAi = true;
         unowned = new Player('gray');
-        currentPlayer = this.player1;
+        //Currentplayer is set twice in order for the spawning of headquarters to get AI rules.
+        currentPlayer = this.player2;
 
-        infoArea = this.infoDraw();
+        
         this.squareCreate();
+        currentPlayer = this.player1;
+        infoArea = this.infoDraw();
         //http://phaser.io/examples/v2/display/fullscreen
     },
 

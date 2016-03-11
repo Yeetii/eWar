@@ -39,6 +39,10 @@ Troops.prototype = {
 			selectedUnit.unselect()
 		}
 		selectedUnit = this
+		//Enable input for buildings if they aren't already built
+        this.square.bunker.enableInput()
+        this.square.railway.enableInput()
+
 		this.troopLbl.select()
 	},
 	unselect: function (){
