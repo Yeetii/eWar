@@ -48,6 +48,9 @@ Troops.prototype = {
 	unselect: function (){
 		selectedUnit = null
 		this.troopLbl.unselect()
+
+		this.square.bunker.disableInput()
+		this.square.railway.disableInput()
 	},
 
 	changeAmount: function (troops){

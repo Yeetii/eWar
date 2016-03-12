@@ -109,6 +109,10 @@ Square.prototype = {
         }
     },
 
+    placeTroopLbls: function () {
+        var amountOfLbls = this.units.length
+    },
+
     swipeRelease: function (){
         //Have to use this function because this refers to the square I pressed on
         var targetSqr = this.findSquareUnderInput()
