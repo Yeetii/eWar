@@ -28,7 +28,6 @@ TroopLbl.prototype = {
         if (selectedUnit === this){
             selectedUnit = null
         }
-        this.updatePosition(this.troop.square.x, this.troop.square.y)
     },
     update: function (newAmount){
         var amount = 0
@@ -40,13 +39,11 @@ TroopLbl.prototype = {
     updateColor: function (newColor){
         this.lbl.color = newColor
     },
-    updatePosition: function (x, y) {
-        this.lbl.x = x + gameProperties.squareSide / 2
-        this.lbl.y = y + gameProperties.squareSide / 4
-    },
-    setPosition: function (x, y){
+    setX: function (x){
         this.lbl.x = x
-        this.lbl.y = y
+    },
+    setY: function (y){
+        this.lbl.y = y + gameProperties.squareSide / 4
     },
     listener: function(){
         //Check if already selected

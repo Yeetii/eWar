@@ -52,7 +52,7 @@ Building.prototype = {
 	    return true
 	},
 	hover: function (){
-		if (this.builtOn === selectedUnit.square){
+		if (selectedUnit != null && this.builtOn === selectedUnit.square){
             this.sprite.frame = 1;
 
 	        if (this.sprite2 != null){
@@ -61,7 +61,7 @@ Building.prototype = {
         }	
 	},
 	unHover: function (){
-		if (this.builtOn === selectedUnit.square){
+		if (selectedUnit != null && this.builtOn === selectedUnit.square){
             this.sprite.frame = 0;
         
 			if (this.sprite2 != null){

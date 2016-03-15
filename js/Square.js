@@ -111,6 +111,19 @@ Square.prototype = {
 
     placeTroopLbls: function () {
         var amountOfLbls = this.units.length
+        var spaceBetween = 40
+
+        //The total width all labels takes up
+        var totalWidth = (spaceBetween * (amountOfLbls - 1))
+        console.log(totalWidth);
+        var firstX = this.x + (gameProperties.squareSide / 2) - (totalWidth / 2)
+        console.log(firstX);
+
+        //Place labels
+        for (var i = 0; i < amountOfLbls; i ++){
+            this.units[i].troopLbl.setX(firstX + (spaceBetween * i))
+            this.units[i].troopLbl.setY(this.y)
+        }
     },
 
     swipeRelease: function (){
@@ -170,6 +183,8 @@ Square.prototype = {
                 //Since it removes the unit it's always the 2nd one it checks
             }
         }
+        //Update remaining label
+        this.placeTroopLbls()
     },
 
     //Builds headquarters for free, is used when starting the game

@@ -15,7 +15,7 @@ Troops.prototype = {
 		square.units.push(this)
 		this.square = square
 		//Move trooplabel to new square
-		this.troopLbl.updatePosition(this.square.x, this.square.y)
+		this.square.placeTroopLbls()
 	},
 	//Might be unnecessary
 	killObject: function (){
@@ -34,9 +34,7 @@ Troops.prototype = {
 			return
 		if (selectedUnit != null){
 			//Merge troops if the previously selected troop was from another square
-			if (selectedUnit.square != this.square)
-				selectedUnit.square.mergeUnits()
-			selectedUnit.unselect()
+			selectedUnit.troopLbl.unselect()
 		}
 		selectedUnit = this
 		//Enable input for buildings if they aren't already built
@@ -46,6 +44,7 @@ Troops.prototype = {
 		this.troopLbl.select()
 	},
 	unselect: function (){
+		this.square.mergeUnits()
 		selectedUnit = null
 		this.troopLbl.unselect()
 
@@ -152,9 +151,7 @@ Troops.prototype = {
 
 	    //Move troops
 	    movingTroops.linkToSquare(targetSquare)
-	    //If the current player isn't AI place the labels at the mouse
-	    if (!currentPlayer.isAi)
-	    	movingTroops.troopLbl.setPosition(game.input.x, game.input.y)
+	    
 
 	    //Merge remaining troops!
 	    originSquare.mergeUnits()
@@ -162,6 +159,8 @@ Troops.prototype = {
 	    if (targetSquare.units[0].amount <= 0){
 	    	targetSquare.units[0].killObject()
 	    }
+	    //Place trooplabels in correct spots, has to be done again since the ghost of the defenders remain until this point
+	    movingTroops.square.placeTroopLbls()
 
 	    return true;
 	},
