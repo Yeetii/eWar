@@ -11,11 +11,7 @@
     this.lbl.events.onInputDown.add(this.listener, this);
     this.lbl.inputEnabled = true
     this.lbl.input.enableDrag(true)
-    this.lbl.events.onDragStart.add(this.onDragStart, this)
     this.lbl.events.onDragStop.add(this.onDragStop, this)
-    
-    this.dragStartX
-    this.dragStartY
 }
 TroopLbl.prototype = {
     select: function (){
@@ -45,29 +41,25 @@ TroopLbl.prototype = {
     setY: function (y){
         this.lbl.y = y + gameProperties.squareSide / 4
     },
+
     listener: function(){
         //Check if already selected
         if (!this.isSelected)
             this.troop.select()
 
     },
-    onDragStart: function(){
-        //Store start position
-        this.dragStartX = this.lbl.x
-        this.dragStartY = this.lbl.y
-    },
     onDragStop: function(){
         var releasedOnSquare = this.troop.square.findSquareUnderInput()
         //If released on own square
         if (releasedOnSquare === this.troop.square){
             //If released on another lbl merge
-
+            this.troop.square.placeTroopLbls()
         }
         //If released on another square
         else{
         //If released on another square perform move or attack
         //Return label to start position in case the attack fails
-        this.setPosition(this.dragStartX, this.dragStartY)
+        this.troop.square.placeTroopLbls()
         this.troop.moveOrAttack(releasedOnSquare)
         }
         

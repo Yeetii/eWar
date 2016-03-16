@@ -34,7 +34,7 @@ Troops.prototype = {
 			return
 		if (selectedUnit != null){
 			//Merge troops if the previously selected troop was from another square
-			selectedUnit.troopLbl.unselect()
+			selectedUnit.unselect(selectedUnit.square === this.square)
 		}
 		selectedUnit = this
 		//Enable input for buildings if they aren't already built
@@ -43,13 +43,14 @@ Troops.prototype = {
 
 		this.troopLbl.select()
 	},
-	unselect: function (){
-		this.square.mergeUnits()
-		selectedUnit = null
+	unselect: function (noMerge){
 		this.troopLbl.unselect()
 
 		this.square.bunker.disableInput()
 		this.square.railway.disableInput()
+		if (noMerge == null || !noMerge)
+			this.square.mergeUnits()
+		selectedUnit = null
 	},
 
 	changeAmount: function (troops){
