@@ -94,10 +94,12 @@ Player.prototype = {
                 frontline.push(selectedSquare)
                 if (targetSquare.units[0].amount < selectedSquare.units[0].amount){
                     selectedSquare.units[0].attack(targetSquare)
+                    targetSquare.mergeUnits()
                 } 
                 if (reserves.length > 0){
                     console.log('Reserves length ' + reserves[reserves.length - 1]);
                     reserves[reserves.length - 1].units[0].moveToward(selectedSquare)
+                    selectedSquare.mergeUnits()
                     reserves.splice(reserves.length - 1, 1)
                 }
             } else {

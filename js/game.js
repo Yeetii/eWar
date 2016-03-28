@@ -149,7 +149,6 @@ gameState.prototype = {
 
     create: function() {
         game.canvas.oncontextmenu = function (e) { e.preventDefault(); }//Prevents right click menu
-        game.input.mouse.capture = true;//Constantly checks mouse inputs, find better solution -- UNUSED?
         
         this.player1 = new Player('blue');
         this.player2 = new Player('red');
@@ -200,7 +199,7 @@ gameState.prototype = {
                 y += gameProperties.squareSide;
                 x = 0;
         }
-        //Sets starting squares to 3 troops
+        //Assigns starting squares to each player
         this.player1.setStartSquare(squares[0][0])
         this.player2.setStartSquare(squares[Math.sqrt(gameProperties.squaresAmount) - 1][Math.sqrt(gameProperties.squaresAmount) - 1])
     },

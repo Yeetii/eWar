@@ -49,17 +49,21 @@ TroopLbl.prototype = {
 
     },
     onDragStop: function(){
+        var releasedOnX = game.input.x
+        var releasedOnY = game.input.y
+        //Reset lbl to a real label position
+        this.troop.square.placeTroopLbls()
+
         var releasedOnSquare = this.troop.square.findSquareUnderInput()
         //If released on own square
         if (releasedOnSquare === this.troop.square){
+            //If released on start location, split in half
             //If released on another lbl merge
-            this.troop.square.placeTroopLbls()
+           // if ()
         }
         //If released on another square
         else{
         //If released on another square perform move or attack
-        //Return label to start position in case the attack fails
-        this.troop.square.placeTroopLbls()
         this.troop.moveOrAttack(releasedOnSquare)
         }
         
