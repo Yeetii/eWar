@@ -72,12 +72,8 @@ var gameState = function (game){
 
 startMenuState.prototype = {
     create: function (){
-        if (!Phaser.Device.desktop){
-            this.scale.pageAlignVertically = true
-            this.scale.pageAlignHorizontally = true;
-            this.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
-        }
-        
+      this.scaleGame();
+
         var ewarText = 'Ewar'
         var startMenuText = 'Choose size of battlefield'
         this.lblEwar = game.add.text(game.world.centerX, game.world.centerY - 300, ewarText, txtStyle.ewar)
@@ -91,6 +87,14 @@ startMenuState.prototype = {
         this.button5x5.anchor.set(0.5, 0.5);
         this.button6x6.anchor.set(0.5, 0.5);
     },
+
+    scaleGame: function(){
+      this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+      if (!Phaser.Device.desktop){
+          this.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
+      }
+    },
+
     startGame: function (squaresAmount){
         game.state.start("gameState", true, false, squaresAmount)
     },
@@ -116,7 +120,7 @@ gameOverState.prototype = {
 }
 
 gameState.prototype = {
-    
+
     preload: function () {
         //Could put all of these in the menu to prevent loadtimes on game start
         game.load.image(graphicAssets.tile.name, graphicAssets.tile.URL);
@@ -149,7 +153,7 @@ gameState.prototype = {
 
     create: function() {
         game.canvas.oncontextmenu = function (e) { e.preventDefault(); }//Prevents right click menu
-        
+
         this.player1 = new Player('blue');
         this.player2 = new Player('red');
         this.player2.isAi = true;
@@ -157,7 +161,6 @@ gameState.prototype = {
         //Currentplayer is set twice in order for the spawning of headquarters to get AI rules.
         currentPlayer = this.player2;
 
-        
         this.squareCreate();
         currentPlayer = this.player1;
         infoArea = this.infoDraw();
@@ -169,7 +172,7 @@ gameState.prototype = {
         // set a fill and line style
         graphics.beginFill(0x607F5A);
         graphics.lineStyle(4, 0x607F5A, 1);
-        
+
         // draw a shape
         graphics.moveTo(-3,50);
         graphics.lineTo(game.width + 3, 50);
@@ -204,12 +207,25 @@ gameState.prototype = {
         this.player2.setStartSquare(squares[Math.sqrt(gameProperties.squaresAmount) - 1][Math.sqrt(gameProperties.squaresAmount) - 1])
     },
 
+	newTurn: function () {
+		this.lblPlayer.text = 'Player ' + currentPlayer.color;
+        this.lblPlayer.fill = currentPlayer.color;
+        lblMoney.text = 'Money: ' + currentPlayer.money;
+        console.log('Turn nr ' + this.turn + ' begins');
+
+        //Start ai if ai
+        if (currentPlayer.isAi){
+            Ai.turn()
+            this.endTurn()
+        }
+	},
+
     endTurn: function () {
         this.turn++;
         if (currentPlayer == this.player1){
             currentPlayer = this.player2;
         }else{
-            currentPlayer = this.player1;    
+            currentPlayer = this.player1;
         }
         if (selectedUnit != null)
             selectedUnit.unselect()
@@ -222,17 +238,7 @@ gameState.prototype = {
                     squares[i][z].units[0].mobility = gameProperties.mobilityCosts.max;
             }
         }
-
-        this.lblPlayer.text = 'Player ' + currentPlayer.color;
-        this.lblPlayer.fill = currentPlayer.color;
-        lblMoney.text = 'Money: ' + currentPlayer.money;
-        console.log('Turn nr ' + this.turn + ' begins');
-
-        //Start ai if ai
-        if (currentPlayer.isAi){
-            currentPlayer.ai()
-            this.endTurn()
-        }
+		this.newTurn()
     },
 }
 var game = new Phaser.Game(800, 850, Phaser.AUTO, '');

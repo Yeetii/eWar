@@ -17,7 +17,7 @@ function Square(x, y, owner, arrayX, arrayY) {
     this.tile.inputEnabled = true;
     this.tile.events.onInputDown.add(this.squareListener, this);
     this.tile.events.onInputUp.add(this.swipeRelease, this);
-    
+
     //Terrain init
     this.spawnTerrain();
     console.log('x:' + this.arrayX + ' y:' + this.arrayY + ' mobilityCost:' + this.mobilityCost + ' income:' + this.income + ' defenseModifier:' + this.defenseModifier);
@@ -42,7 +42,7 @@ function Square(x, y, owner, arrayX, arrayY) {
 
 Square.prototype = {
     squareListener: function () {
-        console.log('Input detected'); 
+        console.log('Input detected');
 
         //Right click
         if (game.input.activePointer.rightButton.isDown) {
@@ -52,7 +52,7 @@ Square.prototype = {
         else{
             this.selectToggle()
         }
-        
+
         //Start recruit loop
         this.holdingRecruit()
     },
@@ -204,7 +204,7 @@ Square.prototype = {
         var rockChance = Math.random() * 2 + 0.1;
         var treeChance = Math.random() * 2 + 0.1;//Between 10 and 100% chance of getting tree instead of rock or swamp,
         var lakeChance = Math.random() + 0.05//Between 5 and 100% chance of getting lake, with 100% being the outcome 5% of the time
-        
+
         for (var i = 0; i <= terrainQty; i++) {
             if (i === terrainQty && Math.random() < lakeChance){//chance of last terrain being lake
                 var randomSprite = 'lake'
@@ -212,17 +212,17 @@ Square.prototype = {
                 var randomSprite = 'tree'
             }else if (Math.random() < rockChance) {//Rocks
                 var randomSprite = 'rock'
-            }else{//Swamps 
+            }else{//Swamps
                 var randomSprite = 'swamp'
             }
             var terrainSprite = game.add.sprite(this.x, this.y, randomSprite)//Adds new random terrain
             terrainSprite.anchor.setTo(0.5, 0.5)
             //Moves to random location within square
-            terrainSprite.x = this.x 
+            terrainSprite.x = this.x
             + (terrainSprite.width * gameProperties.gameScale / 2)//Makes margin to the left, gamescale to get correct max size of sprite
             + (Math.random() * (gameProperties.squareSide - terrainSprite.width * gameProperties.gameScale));
-            terrainSprite.y = this.y 
-            + (terrainSprite.height * gameProperties.gameScale / 2)//Margin on top 
+            terrainSprite.y = this.y
+            + (terrainSprite.height * gameProperties.gameScale / 2)//Margin on top
             + (Math.random() * (gameProperties.squareSide - terrainSprite.height * gameProperties.gameScale));
 
             var rand = ((parseInt(Math.random() * 5) + 5) / 10);//Random value between .5 and 1
@@ -240,7 +240,7 @@ Square.prototype = {
         this.defenseModifier = parseInt(defenseModifier / terrainQty * 10) / 10 //Getting a decimal value with one decimal
     },
 
-    isFrontline: function () {
+    getEnemies: function () {
         var enemies = []
         if (this.arrayY + 1 < gameProperties.squaresAmountSqrt && squares[this.arrayY + 1][this.arrayX].owner != this.owner){
             enemies.push(squares[this.arrayY + 1][this.arrayX])

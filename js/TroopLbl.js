@@ -3,9 +3,9 @@
     //Find better way, only needed for selecting
     this.troop = troop
     this.lbl = game.add.text(x + gameProperties.squareSide / 2, y + gameProperties.squareSide / 4, amount, this.troopStyle)
-    
+
     this.isSelected = false;
-    
+
     this.lbl.fill = color;
     this.lbl.anchor.set(0.5, 0.5);
     this.lbl.events.onInputDown.add(this.listener, this);
@@ -57,8 +57,8 @@ TroopLbl.prototype = {
         var releasedOnSquare = this.troop.square.findSquareUnderInput()
         //If released on own square
         if (releasedOnSquare === this.troop.square){
-            //If released on start location, split in half
-            //If released on another lbl merge
+            //TODO If released on start location, split in half
+            //TODO If released on another lbl merge
            // if ()
         }
         //If released on another square
@@ -66,7 +66,7 @@ TroopLbl.prototype = {
         //If released on another square perform move or attack
         this.troop.moveOrAttack(releasedOnSquare)
         }
-        
+
     },
     destroy: function(){
         this.lbl.destroy()
