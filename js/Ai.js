@@ -41,7 +41,7 @@ class Ai {
 	}
 	static moveReserves(){
 		var reserves = Ai.getReserves()
-		console.log(reserves);
+		console.log("Reserves " + reserves);
 		if (reserves.length > 0)
 	        for (var i = reserves.length - 1; i >= 0; i--) {
 	            var weakest = Ai.getWeakestFrontline()

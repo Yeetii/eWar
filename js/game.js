@@ -26,7 +26,6 @@ var graphicAssets = {
     button5x5: {URL:'assets/5x5.png', name:'button5x5', width: 200, height: 67,},
     button6x6: {URL:'assets/6x6.png', name:'button6x6', width: 200, height: 67,},
 };
-
 var txtStyle = {
     info: {font: '20px Arial', fill: '#000', align: 'left'},
     gameOver: {font: '60px Arial', fill: '#FFF', align: 'center'},
@@ -170,8 +169,8 @@ gameState.prototype = {
     infoDraw: function () {
         var graphics = game.add.graphics(0, 0);
         // set a fill and line style
-        graphics.beginFill(0x607F5A);
-        graphics.lineStyle(4, 0x607F5A, 1);
+        graphics.beginFill(0x909090);
+        graphics.lineStyle(4, 0x909090, 1);
 
         // draw a shape
         graphics.moveTo(-3,50);
@@ -186,6 +185,13 @@ gameState.prototype = {
 
         this.endTurnButton = game.add.button(game.width - 150, 5, 'endTurnButton', this.endTurn, this, 1, 0);
     },
+	updateLblPlayer: function (){
+		this.lblPlayer.text = 'Player ' + currentPlayer.color;
+        this.lblPlayer.fill = currentPlayer.color;
+	},
+	updateLblMoney: function(){
+		lblMoney.text = 'Money: ' + currentPlayer.money;
+	},
 
     squareCreate: function () {
         //Left corner of square
@@ -208,9 +214,9 @@ gameState.prototype = {
     },
 
 	newTurn: function () {
-		this.lblPlayer.text = 'Player ' + currentPlayer.color;
-        this.lblPlayer.fill = currentPlayer.color;
-        lblMoney.text = 'Money: ' + currentPlayer.money;
+		currentPlayer.changeMoney(currentPlayer.income);
+		this.updateLblPlayer()
+		this.updateLblMoney();
         console.log('Turn nr ' + this.turn + ' begins');
 
         //Start ai if ai
@@ -229,7 +235,6 @@ gameState.prototype = {
         }
         if (selectedUnit != null)
             selectedUnit.unselect()
-        currentPlayer.changeMoney(currentPlayer.income);
 
         for (var i = 0; i < squares.length; i++){//Reset square mobility
             for (var z = 0; z < squares.length; z++){

@@ -25,6 +25,14 @@ Troops.prototype = {
 		this.square = null
 	},
 
+	splitTroops: function() {
+		var newAmount = parseInt(this.amount / 2);
+		var newTroops = new Troops(this.square, newAmount)
+		newTroops.mobility = this.mobility;
+		this.square.units.push(newTroops)
+		this.setAmount(this.amount - newAmount)
+	},
+
 	getAmount: function (){
 		return this.amount
 	},
@@ -44,6 +52,7 @@ Troops.prototype = {
 		this.troopLbl.select()
 	},
 	unselect: function (noMerge){
+		console.log("unselect");
 		this.troopLbl.unselect()
 
 		this.square.bunker.disableInput()
@@ -63,8 +72,10 @@ Troops.prototype = {
 	},
 	setAmount: function (troops){
 	    this.amount = troops;
-	    if (this.amount < 0)
-	    	this.amount = 0
+	    if (this.amount <= 0){
+				this.amount = 0
+				this.mobility = gameProperties.mobilityCosts.max;
+			}
 	    this.troopLbl.update(this.amount);
 	},
 	recruit: function (newTroops) {
@@ -91,7 +102,7 @@ Troops.prototype = {
 	        } else {
 	            new MoneyPopup(gameProperties.buildCosts.troops * newTroops)
 	        }
-	    } 
+	    }
 	},
 	attack: function (defender) {
 		//There can only be either one troop or none in a defending square
@@ -125,7 +136,8 @@ Troops.prototype = {
 	        if ((defender.units.length < 1 || (defender.units[0].amount == 0)) && (attacker.mobility >= attacker.square.mobilityCost + defender.mobilityCost)) {//Moves into square if attack succeeds and if he has enough mobility
 	            defender.changeOwner(attacker.square.owner)
 	            attacker.move(defender);
-	        }	
+							attacker.square.mergeUnits()
+	        }
 	    }
 	},
 	move: function (targetSquare) {
@@ -152,7 +164,6 @@ Troops.prototype = {
 
 	    //Move troops
 	    movingTroops.linkToSquare(targetSquare)
-	    
 
 	    //Merge remaining troops!
 	    originSquare.mergeUnits()

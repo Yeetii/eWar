@@ -176,12 +176,13 @@ Square.prototype = {
         if (this.units.length > 1){
             var lowestMobility = this.units[0].mobility
             for (var i = 1; i < this.units.length; i ++){
-                this.units[0].changeAmount(this.units[1].amount)
-                if (this.units[1].mobility < lowestMobility)
-                    lowestMobility = this.units[1].mobility
-                this.units[1].killObject()
+                this.units[0].changeAmount(this.units[i].amount)
+                if (this.units[i].mobility < lowestMobility)
+                    lowestMobility = this.units[i].mobility
+                this.units[i].killObject()
                 //Since it removes the unit it's always the 2nd one it checks
             }
+						this.units[0].mobility = lowestMobility;
         }
         //Update remaining label
         this.placeTroopLbls()
